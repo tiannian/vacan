@@ -1,5 +1,6 @@
 use super::{Expr, FunctionCall, VariableAssign, VariableDecl};
 
+#[derive(Debug, Clone)]
 pub enum Statement {
     VariableDecl(VariableDecl),
     VariableAssign(VariableAssign),
@@ -9,15 +10,18 @@ pub enum Statement {
     Return(Option<Expr>),
 }
 
+#[derive(Debug, Clone)]
 pub struct If {
     pub if_sub_stmt: Vec<IfSubStmt>,
 }
 
+#[derive(Debug, Clone)]
 pub struct IfSubStmt {
     pub condition: Expr,
     pub body: Vec<Statement>,
 }
 
+#[derive(Debug, Clone)]
 pub struct ForLoopStmt {
     pub init: Option<VariableDecl>,
     pub condition: Option<Expr>,

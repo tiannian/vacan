@@ -3,43 +3,43 @@ COMMENT       = _{ PLAIN_COMMENT | DOC_COMMENT }
 PLAIN_COMMENT = _{ "//" ~ (!"\n" ~ ANY)* }
 DOC_COMMENT   = _{ "///" ~ (!"\n" ~ ANY)* }
 
-program = { SOI ~ func_decl* ~ EOI }
+Program = { SOI ~ FuncDecl* ~ EOI }
 
-func_decl = { decorator? ~ func_header ~ block }
-func_header = { ident ~ "(" ~ func_arg? ~ ("," ~ func_arg)*? ~ ")" ~ ident? }
-decorator = { "@" ~ ident ~ ("(" ~ literal? ~ ("," ~ literal)*? ~ ")")? }
-func_arg = { ident ~ ":" ~ ident }
+FuncDecl = { Decorator? ~ FuncHeader ~ Block }
+FuncHeader = { Ident ~ "(" ~ FuncArg? ~ ("," ~ FuncArg)*? ~ ")" ~ Ident? }
+Decorator = { "@" ~ Ident ~ ("(" ~ Literal? ~ ("," ~ Literal)*? ~ ")")? }
+FuncArg = { Ident ~ ":" ~ Ident }
 
-for_loop_stmt = { "(" ~ var_decl ~ ";" ~ expr? ~ ";" ~ expr? ~ ")" ~ block }
-if_stmt = { (expr ~ block)+ }
+ForLoopStmt = { "(" ~ VarDecl ~ ";" ~ Expr? ~ ";" ~ Expr? ~ ")" ~ Block }
+IfStmt = { (Expr ~ Block)+ }
 
-block = { "{" ~ statement* ~ "}" }
+Block = { "{" ~ Statement* ~ "}" }
 
-statement = { for_loop_stmt | var_decl ~ ";" | if_stmt | func_call_stmt | return_stmt | var_assign }
+Statement = { ForLoopStmt | VarDecl ~ ";" | IfStmt | FuncCallStmt | ReturnStmt | VarAssign }
 
-func_call_stmt = { expr ~ ";" }
-return_stmt    = { "<=" ~ expr? ~ ";" }
+FuncCallStmt = { Expr ~ ";" }
+ReturnStmt = { "<=" ~ Expr? ~ ";" }
 
-var_assign =  { ident ~ "=" ~ expr ~ ";" }
-var_decl   =  { ident ~ (":=" ~ expr | ":" ~ ident ~ "=" ~ expr) }
-expr       = _{ func_call | ident | literal }
-func_call  =  { ident ~ "(" ~ expr? ~ ("," ~ expr)*? ~ ")" }
+VarAssign = { Ident ~ "=" ~ Expr ~ ";" }
+VarDecl = { Ident ~ (":=" ~ Expr | ":" ~ Ident ~ "=" ~ Expr) }
+Expr = { FuncCall | Ident | Literal }
+FuncCall = { Ident ~ "(" ~ Expr? ~ ("," ~ Expr)*? ~ ")" }
 
-literal = { string | hex | float | integer }
+Literal = { String | Hex | Float | Integer }
 
-string          =  { "\"" ~ (escape_sequence | !("\"") ~ ANY)* ~ "\"" }
-escape_sequence = _{ "\\" ~ ("\"" | "\\" | "/" | "b" | "f" | "n" | "r" | "t") }
+String = { "\"" ~ (EscapeSequence | !("\"") ~ ANY)* ~ "\"" }
+EscapeSequence = _{ "\\" ~ ("\"" | "\\" | "/" | "b" | "f" | "n" | "r" | "t") }
 
-integer = @{ ("+" | "-")? ~ ASCII_DIGIT+ ~ ("_" ~ ASCII_DIGIT+)* }
+Integer = @{ ("+" | "-")? ~ ASCII_DIGIT+ ~ ("_" ~ ASCII_DIGIT+)* }
 
-float = @{
+Float = @{
     ("+" | "-")? ~ (ASCII_DIGIT* ~ "." ~ ASCII_DIGIT+) ~ (("e" | "E") ~ ("+" | "-")? ~ ASCII_DIGIT+)?
 }
 
-hex = @{
+Hex = @{
     ("0x" | "0X") ~ ASCII_HEX_DIGIT+ ~ ("_" ~ ASCII_HEX_DIGIT+)*
 }
 
-ident = @{
+Ident = @{
     (LETTER | "_") ~ (LETTER | "_" | ASCII_DIGIT)*
 }
