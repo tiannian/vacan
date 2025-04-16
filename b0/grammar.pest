@@ -5,8 +5,9 @@ DOC_COMMENT   = _{ "///" ~ (!"\n" ~ ANY)* }
 
 program = { SOI ~ func_decl* ~ EOI }
 
-func_decl = { func_header ~ block }
+func_decl = { decorator? ~ func_header ~ block }
 func_header = { ident ~ "(" ~ func_arg? ~ ("," ~ func_arg)*? ~ ")" ~ ident? }
+decorator = { "@" ~ ident ~ ("(" ~ literal? ~ ("," ~ literal)*? ~ ")")? }
 func_arg = { ident ~ ":" ~ ident }
 
 for_loop_stmt = { "(" ~ var_decl ~ ";" ~ expr? ~ ";" ~ expr? ~ ")" ~ block }
