@@ -1,0 +1,44 @@
+WHITESPACE    = _{ " " | "\t" | "\r" | "\n" }
+COMMENT       = _{ PLAIN_COMMENT | DOC_COMMENT }
+PLAIN_COMMENT = _{ "//" ~ (!"\n" ~ ANY)* }
+DOC_COMMENT   = _{ "///" ~ (!"\n" ~ ANY)* }
+
+program = { SOI ~ func_decl* ~ EOI }
+
+func_decl = { func_header ~ block }
+func_header = { ident ~ "(" ~ func_arg? ~ ("," ~ func_arg)*? ~ ")" ~ ident? }
+func_arg = { ident ~ ":" ~ ident }
+
+for_loop_stmt = { "(" ~ var_decl ~ ";" ~ expr? ~ ";" ~ expr? ~ ")" ~ block }
+if_stmt = { (expr ~ block)+ }
+
+block = { "{" ~ statement* ~ "}" }
+
+statement = { for_loop_stmt | var_decl ~ ";" | if_stmt | func_call_stmt | return_stmt | var_assign }
+
+func_call_stmt = { expr ~ ";" }
+return_stmt    = { "<=" ~ expr ~ ";" }
+
+var_assign =  { ident ~ "=" ~ expr ~ ";" }
+var_decl   =  { ident ~ (":=" ~ expr | ":" ~ ident ~ "=" ~ expr) }
+expr       = _{ func_call | ident | literal }
+func_call  =  { ident ~ "(" ~ expr? ~ ("," ~ expr)*? ~ ")" }
+
+literal = { string | hex | float | integer }
+
+string          =  { "\"" ~ (escape_sequence | !("\"") ~ ANY)* ~ "\"" }
+escape_sequence = _{ "\\" ~ ("\"" | "\\" | "/" | "b" | "f" | "n" | "r" | "t") }
+
+integer = @{ ("+" | "-")? ~ ASCII_DIGIT+ ~ ("_" ~ ASCII_DIGIT+)* }
+
+float = @{
+    ("+" | "-")? ~ (ASCII_DIGIT* ~ "." ~ ASCII_DIGIT+) ~ (("e" | "E") ~ ("+" | "-")? ~ ASCII_DIGIT+)?
+}
+
+hex = @{
+    ("0x" | "0X") ~ ASCII_HEX_DIGIT+ ~ ("_" ~ ASCII_HEX_DIGIT+)*
+}
+
+ident = @{
+    (LETTER | "_") ~ (LETTER | "_" | ASCII_DIGIT)*
+}

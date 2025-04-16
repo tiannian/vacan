@@ -1,0 +1,8 @@
+[package]
+name = "vacan-b0"
+version.workspace = true
+edition.workspace = true
+
+[dependencies]
+pest = "2.7"
+pest_derive = "2.7"
