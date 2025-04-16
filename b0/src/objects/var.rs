@@ -1,9 +1,9 @@
-use super::{Expr, Ident};
+use super::Expr;
 
 #[derive(Debug, Clone)]
 pub struct VariableDecl {
     pub name: String,
-    pub ty: Ident,
+    pub ty: String,
     pub value: Expr,
 }
 

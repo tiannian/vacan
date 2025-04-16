@@ -3,6 +3,10 @@ use pest_derive::Parser;
 
 use crate::objects::{FunctionDecl, FunctionHeader};
 
+mod func;
+mod idnet;
+mod literal;
+
 #[derive(Parser)]
 #[grammar = "../grammar.pest"]
 pub struct VacanPestParser;
@@ -23,19 +27,9 @@ impl VacanParser {
         let mut functions = vec![];
 
         for pest_function_decl in function_decls {
-            println!("{:#?}", pest_function_decl);
-
-            let decl = FunctionDecl {
-                decorator: None,
-                header: FunctionHeader {
-                    name: "".into(),
-                    args: vec![],
-                    return_type: None,
-                },
-                body: vec![],
-            };
-
-            functions.push(decl);
+            if let Some(decl) = func::parse_function_decl(pest_function_decl) {
+                functions.push(decl);
+            }
         }
 
         Ok(functions)

@@ -2,14 +2,9 @@ use super::Literal;
 
 #[derive(Debug, Clone)]
 pub enum Expr {
-    Ident(Ident),
+    Ident(String),
     FunctionCall(FunctionCall),
     Literal(Literal),
-}
-
-#[derive(Debug, Clone)]
-pub struct Ident {
-    pub name: String,
 }
 
 #[derive(Debug, Clone)]

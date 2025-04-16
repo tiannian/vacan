@@ -1,4 +1,4 @@
-use super::{Ident, Literal, Statement};
+use super::{Literal, Statement};
 
 #[derive(Debug, Clone)]
 pub struct FunctionDecl {
@@ -7,20 +7,20 @@ pub struct FunctionDecl {
     pub body: Vec<Statement>,
 }
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Default)]
 pub struct FunctionHeader {
     pub name: String,
     pub args: Vec<FunctionArg>,
-    pub return_type: Option<Ident>,
+    pub return_type: Option<String>,
 }
 
 #[derive(Debug, Clone)]
 pub struct FunctionArg {
     pub name: String,
-    pub ty: Ident,
+    pub ty: String,
 }
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Default)]
 pub struct Decorator {
     pub name: String,
     pub args: Vec<Literal>,
