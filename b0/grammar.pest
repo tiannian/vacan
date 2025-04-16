@@ -18,7 +18,7 @@ block = { "{" ~ statement* ~ "}" }
 statement = { for_loop_stmt | var_decl ~ ";" | if_stmt | func_call_stmt | return_stmt | var_assign }
 
 func_call_stmt = { expr ~ ";" }
-return_stmt    = { "<=" ~ expr ~ ";" }
+return_stmt    = { "<=" ~ expr? ~ ";" }
 
 var_assign =  { ident ~ "=" ~ expr ~ ";" }
 var_decl   =  { ident ~ (":=" ~ expr | ":" ~ ident ~ "=" ~ expr) }
