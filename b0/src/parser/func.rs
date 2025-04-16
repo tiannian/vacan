@@ -8,17 +8,15 @@ use super::{Rule, idnet::parse_ident, literal::parse_literal};
 
 pub fn parse_function_decl(pest_function_decl: Pair<'_, Rule>) -> Option<FunctionDecl> {
     if let Rule::FuncDecl = pest_function_decl.as_rule() {
-        let mut decorator = None;
-        let mut header = FunctionHeader::default();
-        let mut body = vec![];
+        let mut function_decl = FunctionDecl::default();
 
         for pest_function_decl_child in pest_function_decl.into_inner() {
             match pest_function_decl_child.as_rule() {
                 Rule::Decorator => {
-                    decorator = Some(parse_decorator(pest_function_decl_child));
+                    function_decl.decorator = Some(parse_decorator(pest_function_decl_child));
                 }
                 Rule::FuncHeader => {
-                    header = parse_function_header(pest_function_decl_child);
+                    function_decl.header = parse_function_header(pest_function_decl_child);
                 }
                 Rule::Block => {
                     // TODO: parse block
@@ -29,12 +27,6 @@ pub fn parse_function_decl(pest_function_decl: Pair<'_, Rule>) -> Option<Functio
                 }
             }
         }
-
-        let function_decl = FunctionDecl {
-            decorator,
-            header,
-            body,
-        };
 
         Some(function_decl)
     } else {

@@ -1,6 +1,6 @@
 use super::{Literal, Statement};
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Default)]
 pub struct FunctionDecl {
     pub decorator: Option<Decorator>,
     pub header: FunctionHeader,
