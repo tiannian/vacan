@@ -1,7 +1,7 @@
 use anyhow::Result;
 use pest_derive::Parser;
 
-use crate::objects::{FunctionDecl, FunctionHeader};
+use crate::objects::FunctionDecl;
 
 mod func;
 mod idnet;

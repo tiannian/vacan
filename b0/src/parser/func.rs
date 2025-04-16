@@ -2,7 +2,7 @@ use core::panic;
 
 use pest::iterators::Pair;
 
-use crate::objects::{Decorator, FunctionDecl, FunctionHeader};
+use crate::objects::{Decorator, FunctionArg, FunctionDecl, FunctionHeader};
 
 use super::{Rule, idnet::parse_ident, literal::parse_literal};
 
@@ -21,6 +21,7 @@ pub fn parse_function_decl(pest_function_decl: Pair<'_, Rule>) -> Option<Functio
                     header = parse_function_header(pest_function_decl_child);
                 }
                 Rule::Block => {
+                    // TODO: parse block
                     // body = parse_function_body(pest_function_decl_child);
                 }
                 _ => {
@@ -74,7 +75,14 @@ fn parse_function_header(pest_function_header: Pair<'_, Rule>) -> FunctionHeader
     for part in pest_function_header_inner {
         match part.as_rule() {
             Rule::FuncArg => {
-                println!("{:#?}", part);
+                let mut pest_inner = part.into_inner();
+                let pest_arg_name = pest_inner.next().expect("Must have arg name");
+                let pest_arg_type = pest_inner.next().expect("Must have arg type");
+
+                header.args.push(FunctionArg {
+                    name: parse_ident(pest_arg_name),
+                    ty: parse_ident(pest_arg_type),
+                });
             }
             Rule::Ident => {
                 header.return_type = Some(parse_ident(part));
