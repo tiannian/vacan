@@ -21,7 +21,7 @@ FuncCallStmt = { Expr ~ ";" }
 ReturnStmt = { "<=" ~ Expr? ~ ";" }
 
 VarAssign = { Ident ~ "=" ~ Expr ~ ";" }
-VarDecl = { Ident ~ (":=" ~ Expr | ":" ~ Ident ~ "=" ~ Expr) }
+VarDecl = { Ident ~ ":" ~ Ident? ~ "=" ~ Expr }
 Expr = { FuncCall | Ident | Literal }
 FuncCall = { Ident ~ "(" ~ Expr? ~ ("," ~ Expr)*? ~ ")" }
 

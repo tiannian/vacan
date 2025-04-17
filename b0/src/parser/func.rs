@@ -2,9 +2,9 @@ use core::panic;
 
 use pest::iterators::Pair;
 
-use crate::objects::{Decorator, FunctionArg, FunctionDecl, FunctionHeader};
+use crate::objects::{Decorator, FunctionArg, FunctionDecl, FunctionHeader, Statement};
 
-use super::{Rule, idnet::parse_ident, literal::parse_literal};
+use super::{Rule, idnet::parse_ident, literal::parse_literal, statement::parse_statement};
 
 pub fn parse_function_decl(pest_function_decl: Pair<'_, Rule>) -> Option<FunctionDecl> {
     if let Rule::FuncDecl = pest_function_decl.as_rule() {
@@ -19,8 +19,7 @@ pub fn parse_function_decl(pest_function_decl: Pair<'_, Rule>) -> Option<Functio
                     function_decl.header = parse_function_header(pest_function_decl_child);
                 }
                 Rule::Block => {
-                    // TODO: parse block
-                    // body = parse_function_body(pest_function_decl_child);
+                    function_decl.body = parse_function_body(pest_function_decl_child);
                 }
                 _ => {
                     panic!("Unknown rule: {:?}", pest_function_decl_child.as_rule());
@@ -86,4 +85,22 @@ fn parse_function_header(pest_function_header: Pair<'_, Rule>) -> FunctionHeader
     }
 
     header
+}
+
+fn parse_function_body(pest_function_body: Pair<'_, Rule>) -> Vec<Statement> {
+    let pest_inner = pest_function_body.into_inner();
+
+    let mut body = Vec::new();
+
+    for part in pest_inner {
+        if let Rule::Statement = part.as_rule() {
+            let inner = part.into_inner().next().expect("Must have statement");
+
+            body.push(parse_statement(inner));
+        } else {
+            panic!("Unknown rule: {:?}", part.as_rule());
+        }
+    }
+
+    body
 }

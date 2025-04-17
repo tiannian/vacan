@@ -1,19 +1,19 @@
 # Example for Syntax
 
-```
+```va
 /// function declare
 @decorator(1, "abc")
 test_function(arg1: U8, arg2: U8) U8 {
     // Declare variable and assign with type.
-	a :u8 = 1;
-	// Declare variable and assign.
-	a := b;
+    a :u8 = 1;
+    // Declare variable and assign.
+    a := b;
 
     // Function Call
     call_func(1, a);
 
-	// Assign value
-	a = 1;
+    // Assign value
+    a = 1;
 
     // Assign function call
     a = call(a, 1, 2);

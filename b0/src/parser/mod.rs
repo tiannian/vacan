@@ -3,9 +3,11 @@ use pest_derive::Parser;
 
 use crate::objects::FunctionDecl;
 
+mod for_stmt;
 mod func;
 mod idnet;
 mod literal;
+mod statement;
 
 #[derive(Parser)]
 #[grammar = "../grammar.pest"]

@@ -1,2 +1,13 @@
 @dec(1, 1, 3)
-test_function(arg1: U8, arg2: U8) U8 {}
+test_function(arg1: U8, arg2: U8) U8 {
+    // Declare variable and assign with type.
+	a :u8 = 1;
+
+    // Function Call
+    call_func(1, a);
+
+    // Assign function call
+    a = call(a, 1, 2);
+
+    <= 1;
+}

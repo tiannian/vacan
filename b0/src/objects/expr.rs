@@ -7,7 +7,13 @@ pub enum Expr {
     Literal(Literal),
 }
 
-#[derive(Debug, Clone)]
+impl Default for Expr {
+    fn default() -> Self {
+        Expr::Ident(String::default())
+    }
+}
+
+#[derive(Debug, Clone, Default)]
 pub struct FunctionCall {
     pub name: String,
     pub args: Vec<Expr>,
