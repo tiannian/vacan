@@ -5,17 +5,12 @@ pub enum Statement {
     VariableDecl(VariableDecl),
     VariableAssign(VariableAssign),
     Expr(Expr),
-    If(If),
+    If(Vec<IfSubStmt>),
     ForLoop(ForLoopStmt),
     Return(Option<Expr>),
 }
 
-#[derive(Debug, Clone)]
-pub struct If {
-    pub if_sub_stmt: Vec<IfSubStmt>,
-}
-
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Default)]
 pub struct IfSubStmt {
     pub condition: Expr,
     pub body: Vec<Statement>,

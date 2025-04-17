@@ -2,7 +2,7 @@ use pest::iterators::Pair;
 
 use crate::objects::{Expr, FunctionCall, Statement, VariableAssign, VariableDecl};
 
-use super::{Rule, for_stmt::parse_for_stmt, literal::parse_literal};
+use super::{Rule, for_stmt::parse_for_stmt, if_stmt::parse_if_stmt, literal::parse_literal};
 
 pub fn parse_statement(pest_statement: Pair<'_, Rule>) -> Statement {
     match pest_statement.as_rule() {
@@ -24,11 +24,12 @@ pub fn parse_statement(pest_statement: Pair<'_, Rule>) -> Statement {
         Rule::VarDecl => Statement::VariableDecl(parse_var_decl(pest_statement)),
         Rule::VarAssign => Statement::VariableAssign(parse_var_assign(pest_statement)),
         Rule::ForLoopStmt => Statement::ForLoop(parse_for_stmt(pest_statement)),
+        Rule::IfStmt => Statement::If(parse_if_stmt(pest_statement)),
         _ => panic!("Unknown rule: {:?}", pest_statement.as_rule()),
     }
 }
 
-fn parse_expr(pest_expr: Pair<'_, Rule>) -> Expr {
+pub fn parse_expr(pest_expr: Pair<'_, Rule>) -> Expr {
     if let Rule::Expr = pest_expr.as_rule() {
         let inner = pest_expr.into_inner().next().expect("Must have expr");
 
@@ -57,7 +58,7 @@ fn parse_expr(pest_expr: Pair<'_, Rule>) -> Expr {
     }
 }
 
-fn parse_var_decl(pest_var_decl: Pair<'_, Rule>) -> VariableDecl {
+pub fn parse_var_decl(pest_var_decl: Pair<'_, Rule>) -> VariableDecl {
     let mut var_decl = VariableDecl::default();
 
     let mut inner = pest_var_decl.into_inner();

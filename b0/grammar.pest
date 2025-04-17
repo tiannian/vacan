@@ -10,8 +10,14 @@ FuncHeader = { Ident ~ "(" ~ FuncArg? ~ ("," ~ FuncArg)*? ~ ")" ~ Ident? }
 Decorator = { "@" ~ Ident ~ ("(" ~ Literal? ~ ("," ~ Literal)*? ~ ")")? }
 FuncArg = { Ident ~ ":" ~ Ident }
 
-ForLoopStmt = { "(" ~ VarDecl ~ ";" ~ Expr? ~ ";" ~ Expr? ~ ")" ~ Block }
-IfStmt = { (Expr ~ Block)+ }
+ForLoopStmtInit = { VarDecl? }
+ForLoopStmtCond = { Expr? }
+ForLoopStmtStep = { Expr? }
+ForLoopStmtBody = { Block }
+ForLoopStmt = { "(" ~ ForLoopStmtInit ~ ";" ~ ForLoopStmtCond ~ ";" ~ ForLoopStmtStep ~ ")" ~ ForLoopStmtBody }
+
+IfSubStmt = { Expr ~ Block}
+IfStmt = { IfSubStmt+ }
 
 Block = { "{" ~ Statement* ~ "}" }
 

@@ -38,6 +38,7 @@ test_function(arg1: U8, arg2: U8) U8 {
     // For Statement
     (a:= 1; func(a, b); incr(a)) {
         // Statements
+        <= 1;
     }
 
     // Return

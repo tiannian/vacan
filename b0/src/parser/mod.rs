@@ -6,6 +6,7 @@ use crate::objects::FunctionDecl;
 mod for_stmt;
 mod func;
 mod idnet;
+mod if_stmt;
 mod literal;
 mod statement;
 

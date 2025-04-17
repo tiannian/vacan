@@ -9,5 +9,24 @@ test_function(arg1: U8, arg2: U8) U8 {
     // Assign function call
     a = call(a, 1, 2);
 
+    
+    // For Statement
+    (a:= 1; ; incr(a)) {
+        // Statements
+        <= 1;
+    }
+
+    // If Statement
+    func(a, b) {
+        // Some Statements Here
+        a = 0xabcd;
+    } func(a, b) {
+        // Some Statements Here
+        a = 0xabcd;
+    } func(a, b) {
+        // Some Statements Here
+        a = 0xabcd;
+    }
+
     <= 1;
 }
