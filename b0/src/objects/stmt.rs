@@ -8,6 +8,7 @@ pub enum Statement {
     If(Vec<IfSubStmt>),
     ForLoop(ForLoopStmt),
     Return(Option<Expr>),
+    Macros(MacrosStmt),
 }
 
 #[derive(Debug, Clone, Default)]
@@ -22,4 +23,10 @@ pub struct ForLoopStmt {
     pub condition: Option<Expr>,
     pub update: Option<Expr>,
     pub body: Vec<Statement>,
+}
+
+#[derive(Debug, Clone, Default)]
+pub struct MacrosStmt {
+    pub name: String,
+    pub body: String,
 }

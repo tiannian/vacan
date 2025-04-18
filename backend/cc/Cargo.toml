@@ -1,0 +1,10 @@
+[package]
+name = "vacan-backend-cc"
+version.workspace = true
+edition.workspace = true
+
+[dependencies]
+anyhow.workspace = true
+tokio = { workspace = true, features = ["fs"] }
+
+vacan-b0.workspace = true

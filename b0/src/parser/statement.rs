@@ -1,6 +1,6 @@
 use pest::iterators::Pair;
 
-use crate::objects::{Expr, FunctionCall, Statement, VariableAssign, VariableDecl};
+use crate::objects::{Expr, FunctionCall, MacrosStmt, Statement, VariableAssign, VariableDecl};
 
 use super::{Rule, for_stmt::parse_for_stmt, if_stmt::parse_if_stmt, literal::parse_literal};
 
@@ -25,6 +25,7 @@ pub fn parse_statement(pest_statement: Pair<'_, Rule>) -> Statement {
         Rule::VarAssign => Statement::VariableAssign(parse_var_assign(pest_statement)),
         Rule::ForLoopStmt => Statement::ForLoop(parse_for_stmt(pest_statement)),
         Rule::IfStmt => Statement::If(parse_if_stmt(pest_statement)),
+        Rule::MacrosStmt => Statement::Macros(parse_macros_stmt(pest_statement)),
         _ => panic!("Unknown rule: {:?}", pest_statement.as_rule()),
     }
 }
@@ -96,4 +97,18 @@ fn parse_var_assign(pest_var_assign: Pair<'_, Rule>) -> VariableAssign {
     var_assign.value = parse_expr(value);
 
     var_assign
+}
+
+fn parse_macros_stmt(pest_macros_stmt: Pair<'_, Rule>) -> MacrosStmt {
+    let mut macros_stmt = MacrosStmt::default();
+
+    let mut inner = pest_macros_stmt.into_inner();
+
+    let name = inner.next().expect("Must have name");
+    macros_stmt.name = name.as_str().to_string();
+
+    let body = inner.next().expect("Must have body");
+    macros_stmt.body = body.as_str().to_string();
+
+    macros_stmt
 }

@@ -21,8 +21,10 @@ IfStmt = { IfSubStmt+ }
 
 Block = { "{" ~ Statement* ~ "}" }
 
-Statement = { ForLoopStmt | VarDecl ~ ";" | IfStmt | FuncCallStmt | ReturnStmt | VarAssign }
+Statement = { MacrosStmt | ForLoopStmt | VarDecl ~ ";" | IfStmt | FuncCallStmt | ReturnStmt | VarAssign }
 
+MacrosBody = { (!"}" ~ ANY)* }
+MacrosStmt = { Ident ~ "!" ~ "{" ~ MacrosBody ~ "}" }
 FuncCallStmt = { Expr ~ ";" }
 ReturnStmt = { "<=" ~ Expr? ~ ";" }
 

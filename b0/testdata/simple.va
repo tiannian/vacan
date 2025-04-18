@@ -28,5 +28,7 @@ test_function(arg1: U8, arg2: U8) U8 {
         a = 0xabcd;
     }
 
+    cc_asm! { dasdgbudyg.l.2836;'; }
+
     <= 1;
 }
